@@ -8,6 +8,7 @@ import com.github.fernthedev.gprefix.core.command.CoreCommands;
 import com.github.fernthedev.gprefix.core.message.PrefixListPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixRequestPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixUpdateData;
+import com.github.fernthedev.gprefix.spigot.db.PluginMessagingDB;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +19,8 @@ import java.io.File;
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class Core {
 
-    @Getter
+
+
     private static PrefixPlugin prefixPlugin;
 
     @Getter
@@ -53,12 +55,23 @@ public class Core {
 
     public static void disable() {
         Universal.getMethods().getLogger().info("Saving prefixes");
-        TaskInfo<?> taskInfo = ThreadUtils.runAsync(() -> prefixPlugin.getStorageHandler().save(), ThreadUtils.ThreadExecutors.CACHED_THREADS.getExecutorService());
+
+        TaskInfo<?> taskInfo = null;
+
+        if (!(prefixPlugin.getStorageHandler() instanceof PluginMessagingDB))
+            taskInfo = ThreadUtils.runAsync(() -> prefixPlugin.getStorageHandler().save(), ThreadUtils.ThreadExecutors.CACHED_THREADS.getExecutorService());
+
         TaskInfo<?> taskInfo1 = ThreadUtils.runAsync(() -> prefixPlugin.getCoreConfig().save(), ThreadUtils.ThreadExecutors.CACHED_THREADS.getExecutorService());
 
-        taskInfo.awaitFinish(1);
+        if (taskInfo != null)
+            taskInfo.awaitFinish(1);
+
         taskInfo1.awaitFinish(1);
 
         Universal.getMethods().getLogger().info("Save complete");
+    }
+
+    public static PrefixPlugin getPrefixPlugin() {
+        return prefixPlugin;
     }
 }

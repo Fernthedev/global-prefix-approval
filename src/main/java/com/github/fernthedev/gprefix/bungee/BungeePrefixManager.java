@@ -4,18 +4,17 @@ package com.github.fernthedev.gprefix.bungee;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
 import com.github.fernthedev.fernapi.universal.api.IFPlayer;
-import com.github.fernthedev.fernapi.universal.api.OfflineFPlayer;
 import com.github.fernthedev.fernapi.universal.data.network.Channel;
 import com.github.fernthedev.fernapi.universal.data.network.PluginMessageData;
 import com.github.fernthedev.fernapi.universal.handlers.PluginMessageHandler;
 import com.github.fernthedev.gprefix.core.Channels;
 import com.github.fernthedev.gprefix.core.CommonNetwork;
+import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.PrefixManager;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import com.github.fernthedev.gprefix.core.message.PrefixListPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixRequestPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixUpdateData;
-import lombok.NonNull;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -38,7 +37,7 @@ public class BungeePrefixManager extends PluginMessageHandler implements Listene
 //    }
 
     // Monitor servers that do not have players inside
-    private static List<String> queuedServers = new ArrayList<>();
+    private static final List<String> queuedServers = new ArrayList<>();
 
 
     public static void runPrefixListUpdate() {
@@ -86,14 +85,14 @@ public class BungeePrefixManager extends PluginMessageHandler implements Listene
     @Override
     public void onMessageReceived(PluginMessageData pluginMessageData, Channel channel) {
         if (pluginMessageData instanceof PrefixRequestPluginData) {
-            BungeePlugin.getInstance().getStorageHandler().load();
+            Core.getPrefixPlugin().getStorageHandler().load();
             runPrefixListUpdate();
         }
 
         if (pluginMessageData instanceof PrefixListPluginData ) {
             prefixes.clear();
             prefixes.putAll(((PrefixListPluginData) pluginMessageData).getPlayerPrefixData());
-            BungeePlugin.getInstance().getStorageHandler().save();
+            Core.getPrefixPlugin().getStorageHandler().save();
             runPrefixListUpdate();
         }
 
@@ -101,18 +100,24 @@ public class BungeePrefixManager extends PluginMessageHandler implements Listene
             BungeePlugin.getInstance().getStorageHandler().load();
             PrefixUpdateData prefixUpdateData = (PrefixUpdateData) pluginMessageData;
 
-            prefixes.put(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
+            FernCommandIssuer fernCommandIssuer = prefixUpdateData.isStaffConsole()
+                    ? Universal.getMethods().convertCommandSenderToAPISender(ProxyServer.getInstance().getConsole())
+                    : Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getStaffUUID());
 
-            if (!prefixUpdateData.isSilent()) {
-                @NonNull OfflineFPlayer<?> playerFromUUID = Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getPlayerUUID());
+            updatePrefixStatus(fernCommandIssuer, Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getPlayerUUID()), prefixUpdateData.getPrefixInfoData(), prefixUpdateData.isSilent());
 
-                if (playerFromUUID.isOnline()) {
-                    sendMail(playerFromUUID, prefixUpdateData.getPrefixInfoData());
+//            prefixes.put(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
+//
+//            if (!prefixUpdateData.isSilent()) {
+//                @NonNull OfflineFPlayer<?> playerFromUUID = Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getPlayerUUID());
+//
+//                if (playerFromUUID.isOnline()) {
+//                    sendMail(playerFromUUID, prefixUpdateData.getPrefixInfoData());
+//
+//                }
+//            }
 
-                }
-            }
-
-            BungeePlugin.getInstance().getStorageHandler().save();
+//            Core.getPrefixPlugin().getStorageHandler().save();
             runPrefixListUpdate();
 
 //            if (Universal.getMethods().getServerType() == ServerType.BUKKIT) {

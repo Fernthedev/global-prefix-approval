@@ -2,13 +2,15 @@ package com.github.fernthedev.gprefix.core;
 
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.data.database.DatabaseAuthInfo;
+import com.github.fernthedev.fernapi.universal.data.database.HikariDatabaseAuthInfo;
 import com.github.fernthedev.fernapi.universal.mysql.DatabaseManager;
+import com.github.fernthedev.fernapi.universal.mysql.HikariDatabaseHandler;
 
 
 public class DBManager extends DatabaseManager {
 
-    public DBManager(DatabaseAuthInfo authInfo) {
-//        setDatabaseHandler(HikariDatabaseHandler.instance);
+    public DBManager(HikariDatabaseAuthInfo authInfo) {
+        setDatabaseHandler(new HikariDatabaseHandler(authInfo));
         connect(authInfo);
     }
 

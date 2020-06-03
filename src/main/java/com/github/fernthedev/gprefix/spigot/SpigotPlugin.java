@@ -7,7 +7,6 @@ import com.github.fernthedev.fernapi.server.spigot.FernSpigotAPI;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.gprefix.core.CommonConfigData;
 import com.github.fernthedev.gprefix.core.Core;
-import com.github.fernthedev.gprefix.core.PrefixManager;
 import com.github.fernthedev.gprefix.core.PrefixPlugin;
 import com.github.fernthedev.gprefix.spigot.db.PluginMessagingDB;
 import com.github.fernthedev.gprefix.spigot.locale.GuiLocale;
@@ -41,10 +40,14 @@ public class SpigotPlugin extends FernSpigotAPI implements PrefixPlugin {
 
     @Override
     public void onEnable() {
+        Universal.setDebug(true);
+
         super.onEnable();
 
-        prefixManager = new SpigotPrefixManager();
         spigotPlugin = this;
+
+        prefixManager = new SpigotPrefixManager();
+
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
@@ -94,7 +97,7 @@ public class SpigotPlugin extends FernSpigotAPI implements PrefixPlugin {
     }
 
     @Override
-    public PrefixManager getPrefixManager() {
+    public SpigotPrefixManager getPrefixManager() {
         return prefixManager;
     }
 

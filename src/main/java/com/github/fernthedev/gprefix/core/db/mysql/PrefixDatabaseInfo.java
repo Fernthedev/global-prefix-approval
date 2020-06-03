@@ -8,8 +8,7 @@ public class PrefixDatabaseInfo extends TableInfo {
 
     public static final RowDataTemplate ROW_DATA_TEMPLATE = new RowDataTemplate(
             new ColumnData("PLAYERUUID", ""),
-            new ColumnData("PREFIX", ""),
-            new ColumnData("PREFIX_STATUS", ""));
+            new ColumnData("PREFIX", ""));
 
     public PrefixDatabaseInfo() {
         super("fern_prefix", ROW_DATA_TEMPLATE);

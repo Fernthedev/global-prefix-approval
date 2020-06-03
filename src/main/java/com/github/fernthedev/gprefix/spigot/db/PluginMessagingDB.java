@@ -1,9 +1,7 @@
 package com.github.fernthedev.gprefix.spigot.db;
 
-import com.github.fernthedev.fernapi.server.spigot.pluginhandlers.VaultHandler;
 import com.github.fernthedev.fernapi.universal.FernAPIChannels;
 import com.github.fernthedev.fernapi.universal.Universal;
-import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
 import com.github.fernthedev.fernapi.universal.data.network.Channel;
 import com.github.fernthedev.fernapi.universal.data.network.PluginMessageData;
 import com.github.fernthedev.fernapi.universal.handlers.PluginMessageHandler;
@@ -16,10 +14,8 @@ import com.github.fernthedev.gprefix.core.message.PrefixListPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixRequestPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixUpdateData;
 import com.github.fernthedev.gprefix.spigot.SpigotPlugin;
-import com.github.fernthedev.gprefix.spigot.event.PrefixUpdateEvent;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -80,12 +76,7 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
                 Core.getPrefixPlugin().getPrefixManager().getPrefixes().put(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
             }
 
-            Bukkit.getPluginManager().callEvent(new PrefixUpdateEvent(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData()));
-
-            if (prefixUpdateData.getPrefixInfoData().getPrefixUpdateMode() == CommonNetwork.PrefixUpdateMode.APPROVED) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(prefixUpdateData.getPlayerUUID());
-                VaultHandler.getChat().setPlayerPrefix(null, offlinePlayer, ChatColor.translateAlternateColorCodes('&', prefixUpdateData.getPrefixInfoData().getPrefix()));
-            }
+            SpigotPlugin.getInstance().getPrefixManager().updatePrefixStatus(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
         }
     }
 
@@ -109,7 +100,9 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
     public void init() {
         Bukkit.getServer().getPluginManager().registerEvents(new PluginMessagingDB(), SpigotPlugin.getInstance());
         Universal.getMessageHandler().registerMessageHandler(new PluginMessagingDB());
-        load();
+
+        if (!Bukkit.getOnlinePlayers().isEmpty())
+            load();
     }
 
     @Override

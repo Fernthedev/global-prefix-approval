@@ -1,6 +1,6 @@
 package com.github.fernthedev.gprefix.core;
 
-import com.github.fernthedev.fernapi.universal.data.database.DatabaseAuthInfo;
+import com.github.fernthedev.fernapi.universal.data.database.HikariDatabaseAuthInfo;
 import com.github.fernthedev.fernapi.universal.mysql.HikariSQLDriver;
 import com.github.fernthedev.gprefix.core.db.DBUtil;
 import com.github.fernthedev.gprefix.core.locale.MessageLocale;
@@ -16,7 +16,7 @@ public class CommonConfigData {
     private boolean includeColorCodesInLength = false;
 
     @Getter
-    private DatabaseAuthInfo databaseAuthInfo = new DatabaseAuthInfo(
+    private HikariDatabaseAuthInfo databaseAuthInfo = new HikariDatabaseAuthInfo(
             "root",
             "pass",
             "3306",
@@ -29,6 +29,10 @@ public class CommonConfigData {
 
 
     private boolean writeLogs = true;
+
+    public boolean isWriteLogs() {
+        return writeLogs;
+    }
 //
 //    @Getter
 //    protected String token;

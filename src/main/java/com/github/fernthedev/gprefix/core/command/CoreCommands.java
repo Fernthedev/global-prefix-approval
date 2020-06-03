@@ -36,15 +36,15 @@ public class CoreCommands extends BaseCommand {
     @Description("Change prefix using MySQL")
     @CommandCompletion("@nothing @players")
     @Subcommand("request")
-    public void onPrefix(FernCommandIssuer sender, String newNick, @CommandPermission(Core.PREFIX_PERMISSION + ".others") @Flags("other,defaultself") IFPlayer<?> player) {
+    public void onPrefix(IFPlayer<?> sender, String newNick/*, @CommandPermission(Core.PREFIX_PERMISSION + ".others") @Flags("other,defaultself") IFPlayer<?> player*/) {
 
 //        Connection connection = DatabaseHandler.getConnection();
 
 
-        if (!sender.isPlayer() && player == null) {
-            sender.sendError(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", "player");
-            return;
-        }
+//        if (!sender.isPlayer() && player == null) {
+//            sender.sendError(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", "player");
+//            return;
+//        }
 
         if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".color") && !ChatColor.stripColor(newNick).equals(newNick)) {
 
@@ -72,7 +72,7 @@ public class CoreCommands extends BaseCommand {
 
         //                if(connection != null) {
 
-        applyPrefix(player, newNick);
+        applyPrefix(sender, newNick);
         sender.sendMessage(TextMessage.fromColor(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getReviewInProcess()));
     }
 

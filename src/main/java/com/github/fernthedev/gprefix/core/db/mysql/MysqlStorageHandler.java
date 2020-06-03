@@ -1,7 +1,6 @@
 package com.github.fernthedev.gprefix.core.db.mysql;
 
 import com.github.fernthedev.fernapi.universal.Universal;
-import com.github.fernthedev.fernapi.universal.data.ScheduleTaskWrapper;
 import com.github.fernthedev.fernapi.universal.data.database.ColumnData;
 import com.github.fernthedev.fernapi.universal.data.database.RowData;
 import com.github.fernthedev.fernapi.universal.exceptions.database.DatabaseException;
@@ -23,7 +22,7 @@ public class MysqlStorageHandler implements StorageHandler {
 
 
     
-    private ScheduleTaskWrapper<?, ?> scheduleTaskWrapper;
+//    private ScheduleTaskWrapper<?, ?> scheduleTaskWrapper;
     public static DatabaseManager DATABASE_MANAGER;
     private static PrefixDatabaseInfo databaseInfo;
 
@@ -108,10 +107,31 @@ public class MysqlStorageHandler implements StorageHandler {
 
                 RowData rowData = new RowData(playerColumn, prefixColumn);
                 DATABASE_MANAGER.insertIntoTable(databaseInfo, rowData);
+
+
+                databaseInfo.getFromDatabase(DATABASE_MANAGER);
+                Queue<RowData> rowDataStack = new LinkedList<>(databaseInfo.getRowDataList());
+
+                while(!rowDataStack.isEmpty()) {
+                    RowData rowDataCheck = rowDataStack.remove();
+
+                    UUID uuidCheck = UUIDFetcher.uuidFromString(rowDataCheck.getColumn("PLAYERUUID").getValue());
+
+                    if (!Core.getPrefixPlugin().getPrefixManager().getPrefixes().containsKey(uuidCheck))
+                        DATABASE_MANAGER.removeRowIfColumnContainsValue(databaseInfo, "PLAYERUUID", uuidCheck.toString());
+                }
             } catch (DatabaseException throwables) {
                 throwables.printStackTrace();
             }
         }));
     }
 
+//    @Getter
+//    public class PrefixObject {
+//        private String jsonObject;
+//
+//        public PrefixObject(Object jsonObject) {
+//            this.jsonObject = jsonObject;
+//        }
+//    }
 }

@@ -30,6 +30,8 @@ public class PrefixApproveGUI implements InventoryProvider, Listener {
     private String prefix;
     private boolean silent = false;
 
+    private volatile boolean managed = false;
+
     private static final int rows = 5;
     private static final int columns = 9;
     @Setter
@@ -108,6 +110,7 @@ public class PrefixApproveGUI implements InventoryProvider, Listener {
     }
 
     private void doPrefix(Player player, IFPlayer<?> prefixPlayer, CommonNetwork.PrefixUpdateMode updateMode, String prefix, boolean silent) {
+        managed = true;
         Core.getPrefixPlugin().getPrefixManager().updatePrefixStatus(Universal.getMethods().convertPlayerObjectToFPlayer(player), prefixPlayer, new PrefixInfoData(prefix, updateMode), silent);
         inventory.open(player);
     }
@@ -115,8 +118,11 @@ public class PrefixApproveGUI implements InventoryProvider, Listener {
     @Override
     public void update(Player player, InventoryContents contents) {
         if (!Core.getPrefixPlugin().getPrefixManager().getPrefixes().containsKey(uuid)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', SpigotPlugin.getConfigData().getGuiLocale().getPrefixManagedByOther()));
-            player.closeInventory();
+            if (!managed) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', SpigotPlugin.getConfigData().getGuiLocale().getPrefixManagedByOther()));
+                player.closeInventory();
+            }
+            return;
         }
 
         prefix = Core.getPrefixPlugin().getPrefixManager().getPrefixes().get(uuid).getPrefix();

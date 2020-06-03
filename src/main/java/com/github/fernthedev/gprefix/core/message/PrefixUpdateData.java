@@ -1,11 +1,13 @@
 package com.github.fernthedev.gprefix.core.message;
 
+import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
 import com.github.fernthedev.fernapi.universal.data.network.Channel;
 import com.github.fernthedev.fernapi.universal.data.network.IServerInfo;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
@@ -19,6 +21,10 @@ public class PrefixUpdateData extends AbstractPrefixRequest {
 
     private PrefixInfoData prefixInfoData;
     private UUID playerUUID;
+
+    @Nullable
+    private UUID staffUUID = null;
+    private boolean isStaffConsole = false;
 
     @Setter
     private boolean silent = false;
@@ -48,6 +54,17 @@ public class PrefixUpdateData extends AbstractPrefixRequest {
         this.prefixInfoData = prefixInfoData;
         this.playerUUID = playerUUID;
         updateFields();
+    }
+
+    public PrefixUpdateData setStaffUUID(@NonNull FernCommandIssuer fernCommandIssuer) {
+        if (fernCommandIssuer.isPlayer()) {
+            this.staffUUID = fernCommandIssuer.getUniqueId();
+            isStaffConsole = false;
+        } else {
+            staffUUID = null;
+            isStaffConsole = true;
+        }
+        return this;
     }
 
     private void updateFields() {
