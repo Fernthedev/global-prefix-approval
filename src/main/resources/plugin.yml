@@ -1,0 +1,18 @@
+name: FernGlobalPrefixes
+main: com.github.fernthedev.gprefix.spigot.SpigotPlugin
+author: Fernthedev
+depends:
+  - Vault
+version: 1.0.0
+website: https://github.com/Fernthedev/global-prefix
+api-version: 1.13
+commands:
+  spigotprefix:
+    description: Spigot variant of prefix command
+    usage: /sprefix
+  sprefix:
+    description: Spigot variant of prefix command
+    usage: /sprefix
+  prefix:
+    description: Spigot variant of prefix command
+    usage: /prefix
