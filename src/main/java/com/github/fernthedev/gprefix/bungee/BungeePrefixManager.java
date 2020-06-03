@@ -47,7 +47,7 @@ public class BungeePrefixManager extends PluginMessageHandler implements Listene
     @Override
     public void updatePrefixStatus(FernCommandIssuer staff, IFPlayer<?> player, PrefixInfoData prefixInfoData, boolean silent) {
         PrefixManager.super.updatePrefixStatus(staff, player, prefixInfoData, silent);
-        CommonNetwork.updatePlayerPrefixStatus(player, prefixInfoData, silent);
+        CommonNetwork.updatePlayerPrefixStatus(staff, player, prefixInfoData, silent);
     }
 
     public static void runPrefixListUpdate(String server) {

@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class CommonConfigData {
 
-    private boolean debugMode = true;
+    private boolean debugMode = false;
     private MessageLocale messageLocale = new MessageLocale();
 
     private int prefixLength = 16;

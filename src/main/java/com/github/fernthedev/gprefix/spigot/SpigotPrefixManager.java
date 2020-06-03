@@ -26,7 +26,7 @@ public class SpigotPrefixManager implements PrefixManager {
         PrefixManager.super.updatePrefixStatus(staff, player, prefixInfoData, silent);
 
         if (Core.getPrefixPlugin().getStorageHandler() instanceof PluginMessagingDB) {
-            CommonNetwork.updatePlayerPrefixStatus(player, prefixInfoData, silent);
+            CommonNetwork.updatePlayerPrefixStatus(staff, player, prefixInfoData, silent);
         }
 
         Core.getPrefixPlugin().getStorageHandler().save();

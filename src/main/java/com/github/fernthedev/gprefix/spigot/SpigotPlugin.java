@@ -40,8 +40,6 @@ public class SpigotPlugin extends FernSpigotAPI implements PrefixPlugin {
 
     @Override
     public void onEnable() {
-        Universal.setDebug(true);
-
         super.onEnable();
 
         spigotPlugin = this;
