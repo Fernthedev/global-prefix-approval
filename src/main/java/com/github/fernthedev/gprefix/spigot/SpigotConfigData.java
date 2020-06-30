@@ -13,5 +13,6 @@ public class SpigotConfigData extends CommonConfigData implements Serializable {
     private GuiLocale guiLocale = new GuiLocale();
 
     private GuiSize prefixQueueGuiSize = new GuiSize(5, 9);
+    private String appendPrefixRequestSuffix = " &r";
 
 }

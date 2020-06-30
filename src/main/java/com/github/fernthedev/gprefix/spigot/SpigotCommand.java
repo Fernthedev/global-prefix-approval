@@ -68,7 +68,7 @@ public class SpigotCommand extends BaseCommand {
     }
 
     @Description("Open GUI Prefix Queue")
-    @CommandPermission(Core.PREFIX_PERMISSION + ".gui")
+    @CommandPermission(Core.COMMAND_PERMISSION + ".gui")
     @CommandCompletion("@nothing")
     @Default
     public void openGui(Player fernCommandIssuer) {

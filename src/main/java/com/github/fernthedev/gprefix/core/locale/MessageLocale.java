@@ -21,5 +21,7 @@ public class MessageLocale {
     private String prefixLengthExceeded = "&cYour prefix has exceeded the length which is: &6${length}";
     private String queueIsEmpty = "&8Prefix queue is empty";
     private String queueDoesNotContain = "&cThe queue does contain ${player}";
+    private String noSpacingAllowed = "&cYou do not have permission to use spaces in your prefix";
+    private String noColorsAllowed = "&cYou do not have permissiont to use colors in your prefix";
 
 }

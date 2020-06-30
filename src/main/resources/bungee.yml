@@ -1,7 +1,7 @@
 name: FernGlobalPrefixes
 main: com.github.fernthedev.gprefix.bungee.BungeePlugin
 author: Fernthedev
-version: 1.0.0
+version: 0.3.0-BETA
 website: https://github.com/Fernthedev/global-prefix
 softdepends:
   - LuckPerms

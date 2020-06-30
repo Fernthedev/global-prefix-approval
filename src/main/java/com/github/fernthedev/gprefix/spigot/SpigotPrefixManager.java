@@ -61,7 +61,7 @@ public class SpigotPrefixManager implements PrefixManager {
                 e.printStackTrace();
             }
 
-            VaultHandler.getChat().setPlayerPrefix(null, offlinePlayer, ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix()));
+            VaultHandler.getChat().setPlayerPrefix(null, offlinePlayer, ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + SpigotPlugin.getConfigData().getAppendPrefixRequestSuffix()));
         }
     }
 }

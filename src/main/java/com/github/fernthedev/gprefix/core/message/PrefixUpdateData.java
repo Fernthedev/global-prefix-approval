@@ -1,6 +1,7 @@
 package com.github.fernthedev.gprefix.core.message;
 
 import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
+import com.github.fernthedev.fernapi.universal.api.IFPlayer;
 import com.github.fernthedev.fernapi.universal.data.network.Channel;
 import com.github.fernthedev.fernapi.universal.data.network.IServerInfo;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
@@ -57,7 +58,7 @@ public class PrefixUpdateData extends AbstractPrefixRequest {
     }
 
     public PrefixUpdateData setStaffUUID(@NonNull FernCommandIssuer fernCommandIssuer) {
-        if (fernCommandIssuer.isPlayer()) {
+        if (fernCommandIssuer instanceof IFPlayer<?> || fernCommandIssuer.isPlayer()) {
             this.staffUUID = fernCommandIssuer.getUniqueId();
             isStaffConsole = false;
         } else {

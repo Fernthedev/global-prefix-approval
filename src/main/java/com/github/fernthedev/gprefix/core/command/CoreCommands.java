@@ -34,36 +34,46 @@ public class CoreCommands extends BaseCommand {
 
     @CommandPermission(Core.COMMAND_PERMISSION + ".request")
     @Description("Change prefix using MySQL")
-    @CommandCompletion("@nothing @players")
+    @CommandCompletion("@nothing")
     @Subcommand("request")
-    public void onPrefix(IFPlayer<?> sender, String newNick/*, @CommandPermission(Core.PREFIX_PERMISSION + ".others") @Flags("other,defaultself") IFPlayer<?> player*/) {
+    public void onPrefix(IFPlayer<?> sender, String[] newPrefix/*, @CommandPermission(Core.PREFIX_PERMISSION + ".others") @Flags("other,defaultself") IFPlayer<?> player*/) {
 
 //        Connection connection = DatabaseHandler.getConnection();
 
+        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".allowSpaces") && newPrefix.length > 0) {
+            sender.sendMessage(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getNoSpacingAllowed());
+            return;
+        }
+
+        StringBuilder newPrefixBuilder = new StringBuilder();
+
+        for (String s : newPrefix) newPrefixBuilder.append(s).append(" ");
+
+        String newPrefixStr = newPrefixBuilder.substring(0, newPrefixBuilder.length() - 1);
 
 //        if (!sender.isPlayer() && player == null) {
 //            sender.sendError(MessageKeys.PLEASE_SPECIFY_ONE_OF, "{valid}", "player");
 //            return;
 //        }
 
-        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".color") && !ChatColor.stripColor(newNick).equals(newNick)) {
+        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".color") && !ChatColor.stripColor(newPrefixStr).equals(newPrefixStr)) {
 
-            sender.sendError(MessageKeys.PERMISSION_DENIED_PARAMETER);
-//            sendMessage(sender, "&cYou do not have permissions to use color nicknames.");
+            sender.sendMessage(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getNoColorsAllowed());
             return;
         }
 
-        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".exceedLength")) {
-            String checkLength = newNick;
+        String checkLength = newPrefixStr;
 
-            if (!prefixPlugin.getCoreConfig().getConfigData().isIncludeColorCodesInLength()) ChatColor.stripColor(checkLength);
+        if (!prefixPlugin.getCoreConfig().getConfigData().isIncludeColorCodesInLength()) checkLength = ChatColor.stripColor(checkLength);
+
+        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".exceedLength")) {
 
             int prefixLength = prefixPlugin.getCoreConfig().getConfigData().getPrefixLength();
 
             if (checkLength.length() > prefixLength) {
                 sender.sendMessage(
                         TextMessage.fromColor(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getPrefixLengthExceeded()
-                                .replace("${prefix}", newNick)
+                                .replace("${prefix}", newPrefixStr)
                                 .replace("${length}", prefixLength + "")
                         ));
                 return;
@@ -72,7 +82,7 @@ public class CoreCommands extends BaseCommand {
 
         //                if(connection != null) {
 
-        applyPrefix(sender, newNick);
+        applyPrefix(sender, newPrefixStr);
         sender.sendMessage(TextMessage.fromColor(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getReviewInProcess()));
     }
 

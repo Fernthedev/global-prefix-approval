@@ -13,8 +13,9 @@ Permissions:
             - fprefix.command.prefix.others
             - fprefix.command.prefix.color
             - fprefix.command.prefix.exceedLength
-            - fprefix.command.prefix.gui
+            - fprefix.command.prefix.allowSpaces
         - fprefix.command.reload
+        - fprefix.command.gui
         - fprefix.command.request
         - fprefix.command.approve
         - fprefix.command.deny
@@ -53,6 +54,7 @@ Permissions:
     "mysqlDriver": "mariadb_hikari" // MariaDB should work for MySQL, but if otherwise you may change the value to "mysql_hikari"
   },
   "storageTypes": "JSON", // Possible values: MYSQL, JSON, YAML, Plugin (Spigot Only, uses Bungeecord's database)
+  "appendPrefixRequestSuffix": " &r", // Adds suffix to a prefix requested, though it will be shown once applied to the player.
   "writeLogs": true, // Should logs be written?
   "guiLocale": { // Locale for Spigot GUI
     "prefixMaterial": "NAME_TAG",
@@ -82,5 +84,4 @@ Permissions:
     "columns": 9
   }
 }
-
 ```
