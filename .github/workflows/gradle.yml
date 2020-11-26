@@ -33,3 +33,8 @@ jobs:
           ${{ runner.os }}-gradle-
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Upload client artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Jar Files
+        path: ./build/libs/ # or path/to/artifact
