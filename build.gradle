@@ -81,10 +81,20 @@ dependencies {
 jar.classifier("old")
 shadowJar {
     classifier = ''
-    minimize()
-    relocate ('com.github.fernthedev', "${project.group}.fernstuff") {
-        exclude 'com.github.fernthedev.gprefix*'
+    minimize() {
+
     }
+
+    relocate ('com.github.fernthedev.config', "${project.group}.fernstuff")
+    relocate ('com.github.fernthedev.fernapi', "${project.group}.fernstuff")
+    relocate ('com.github.fernthedev.fernutils', "${project.group}.fernstuff")
+
+
+
+    relocate ("${project.group}.fernstuff.gprefix", "${project.group}.gprefix") {
+
+    }
+
     relocate 'co.aikar.commands', "${project.group}.acf"
     relocate 'co.aikar.locales', "${project.group}.locales"
 
