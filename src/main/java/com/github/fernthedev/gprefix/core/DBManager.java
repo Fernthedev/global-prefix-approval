@@ -2,15 +2,14 @@ package com.github.fernthedev.gprefix.core;
 
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.data.database.DatabaseAuthInfo;
-import com.github.fernthedev.fernapi.universal.data.database.HikariDatabaseAuthInfo;
-import com.github.fernthedev.fernapi.universal.mysql.DatabaseManager;
+import com.github.fernthedev.fernapi.universal.mysql.DatabaseListener;
 import com.github.fernthedev.fernapi.universal.mysql.HikariDatabaseHandler;
 
 
-public class DBManager extends DatabaseManager {
+public class DBManager extends DatabaseListener {
 
-    public DBManager(HikariDatabaseAuthInfo authInfo) {
-        setDatabaseHandler(new HikariDatabaseHandler(authInfo));
+    public DBManager(DatabaseAuthInfo authInfo) {
+        setDatabaseHandler(new HikariDatabaseHandler());
         connect(authInfo);
     }
 
@@ -18,7 +17,7 @@ public class DBManager extends DatabaseManager {
      * This is called after you attempt a connection
      *
      * @param connected Returns true if successful
-     * @see DatabaseManager#connect(DatabaseAuthInfo)
+     * @see DatabaseListener#connect(DatabaseAuthInfo)
      */
     @Override
     public void onConnectAttempt(boolean connected) {

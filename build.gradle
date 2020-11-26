@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.Fernthedev.FernAPI:all:1.9.0-rc3'
+    compile 'com.github.Fernthedev.FernAPI:all:7bdbbd6' //1.9.0-rc4'
 //    compileOnly 'com.google.apis:google-api-services-youtube:v3-rev193-1.23.0'
 //    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
 //    compile 'com.google.api-client:google-api-client:1.23.0'

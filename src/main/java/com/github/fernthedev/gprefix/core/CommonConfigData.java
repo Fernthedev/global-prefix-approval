@@ -1,13 +1,15 @@
 package com.github.fernthedev.gprefix.core;
 
-import com.github.fernthedev.fernapi.universal.data.database.HikariDatabaseAuthInfo;
+import com.github.fernthedev.fernapi.universal.data.database.DatabaseAuthInfo;
 import com.github.fernthedev.fernapi.universal.mysql.HikariSQLDriver;
 import com.github.fernthedev.gprefix.core.db.DBUtil;
 import com.github.fernthedev.gprefix.core.locale.MessageLocale;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public class CommonConfigData {
+public class CommonConfigData implements Serializable {
 
     private boolean debugMode = false;
     private MessageLocale messageLocale = new MessageLocale();
@@ -16,7 +18,7 @@ public class CommonConfigData {
     private boolean includeColorCodesInLength = false;
 
     @Getter
-    private HikariDatabaseAuthInfo databaseAuthInfo = new HikariDatabaseAuthInfo(
+    private DatabaseAuthInfo databaseAuthInfo = new DatabaseAuthInfo(
             "root",
             "pass",
             "3306",

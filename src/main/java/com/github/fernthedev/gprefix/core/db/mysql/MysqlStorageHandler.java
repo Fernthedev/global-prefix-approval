@@ -4,7 +4,7 @@ import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.data.database.ColumnData;
 import com.github.fernthedev.fernapi.universal.data.database.RowData;
 import com.github.fernthedev.fernapi.universal.exceptions.database.DatabaseException;
-import com.github.fernthedev.fernapi.universal.mysql.DatabaseManager;
+import com.github.fernthedev.fernapi.universal.mysql.DatabaseListener;
 import com.github.fernthedev.fernapi.universal.util.UUIDFetcher;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.DBManager;
@@ -23,7 +23,7 @@ public class MysqlStorageHandler implements StorageHandler {
 
     
 //    private ScheduleTaskWrapper<?, ?> scheduleTaskWrapper;
-    public static DatabaseManager DATABASE_MANAGER;
+    public static DatabaseListener DATABASE_MANAGER;
     private static PrefixDatabaseInfo databaseInfo;
 
     private void doSchedule() {
