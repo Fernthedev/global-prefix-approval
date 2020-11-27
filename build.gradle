@@ -69,7 +69,7 @@ dependencies {
     compile 'com.github.Fernthedev:fern-configmanager:1.2.5'
     compile 'com.github.Fernthedev:FernUtils:1.4.1'
     compile 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
-    compileOnly 'net.md-5:bungeecord-api:1.14-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.3'
     compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
     compileOnly 'org.projectlombok:lombok:1.18.12'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
