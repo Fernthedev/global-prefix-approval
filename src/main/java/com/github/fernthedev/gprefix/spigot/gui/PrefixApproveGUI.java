@@ -4,6 +4,7 @@ import com.github.fernthedev.fernapi.server.spigot.util.GuiUtil;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.api.IFPlayer;
 import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
+import com.github.fernthedev.fernapi.universal.data.chat.TextMessage;
 import com.github.fernthedev.gprefix.core.CommonNetwork;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
@@ -51,7 +52,7 @@ public class PrefixApproveGUI implements InventoryProvider, Listener {
                 .provider(prefixApproveGUI)
                 .manager(SpigotPlugin.getInstance().getInventoryManager())
                 .size(rows, columns)
-                .title(SpigotPlugin.getConfigData().getGuiLocale().getPrefixListGUIApproveTitle().replace("${player}", name).replace("${prefix}", prefix))
+                .title(TextMessage.fromColor(SpigotPlugin.getConfigData().getGuiLocale().getPrefixListGUIApproveTitle().replace("${player}", name).replace("${prefix}", prefix)).toPlainText())
                 .build();
         prefixApproveGUI.setInventory(inventory);
 
