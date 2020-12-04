@@ -98,8 +98,8 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
 
     @Override
     public void init() {
-        Bukkit.getServer().getPluginManager().registerEvents(new PluginMessagingDB(), SpigotPlugin.getInstance());
-        Universal.getMessageHandler().registerMessageHandler(new PluginMessagingDB());
+        Bukkit.getServer().getPluginManager().registerEvents(this, SpigotPlugin.getInstance());
+        Universal.getMessageHandler().registerMessageHandler(this);
 
         if (!Bukkit.getOnlinePlayers().isEmpty())
             load();
