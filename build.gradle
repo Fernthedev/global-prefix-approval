@@ -70,7 +70,7 @@ dependencies {
 //    compileOnly 'org.spigotmc:plugin-annotations:1.2.2-SNAPSHOT'
 //    annotationProcessor 'org.spigotmc:plugin-annotations:1.2.2-SNAPSHOT'
 
-    compile 'net.luckperms:api:5.0'
+    compile 'net.luckperms:api:5.2'
     compile 'com.github.Fernthedev:fern-configmanager:1.4.0'
     compile 'com.github.Fernthedev:FernUtils:1.4.1'
     compile 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
