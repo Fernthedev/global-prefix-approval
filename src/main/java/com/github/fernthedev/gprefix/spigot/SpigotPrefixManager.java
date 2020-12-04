@@ -50,12 +50,8 @@ public class SpigotPrefixManager implements PrefixManager {
 
     private void applyPrefix(UUID uuid, PrefixInfoData prefixInfoData) {
         Universal.debug(ChatColor.GOLD + "Setting player prefix for " + uuid);
-        Runnable runnable = () -> Bukkit.getPluginManager().callEvent(new PrefixUpdateEvent(uuid, prefixInfoData));
 
-        if (Universal.getMethods().isMainThread())
-            Universal.getScheduler().runAsync(runnable);
-        else
-            runnable.run();
+        Bukkit.getPluginManager().callEvent(new PrefixUpdateEvent(uuid, prefixInfoData));
 
     }
 }
