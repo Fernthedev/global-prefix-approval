@@ -19,21 +19,23 @@ public class LuckPermsPrefixHandler {
         UUID uuid = e.getUuid();
         PrefixInfoData prefixInfoData = e.getPrefixInfoData();
 
-        User user = LuckPermsProvider.get().getUserManager().getUser(uuid);
-        if (user != null) {
+        if (e.getPrefixInfoData().getPrefixUpdateMode().approved()) {
+            User user = LuckPermsProvider.get().getUserManager().getUser(uuid);
+            if (user != null) {
 
-            int priority = 1;
-            for (Node node : user.data().toCollection()) {
-                if (node instanceof PrefixNode) {
-                    priority = Math.max(((PrefixNode) node).getPriority() + 1, priority);
+                int priority = 1;
+                for (Node node : user.data().toCollection()) {
+                    if (node instanceof PrefixNode) {
+                        priority = Math.max(((PrefixNode) node).getPriority() + 1, priority);
+                    }
                 }
-            }
 
-            user.data().add(PrefixNode.builder()
-                    .prefix(ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + VelocityPlugin.getDataConfig().getConfigData().getAppendPrefixRequestSuffix()))
-                    .priority(priority)
-                    .build()
-            );
+                user.data().add(PrefixNode.builder()
+                        .prefix(ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + VelocityPlugin.getDataConfig().getConfigData().getAppendPrefixRequestSuffix()))
+                        .priority(priority)
+                        .build()
+                );
+            }
         }
     }
 
