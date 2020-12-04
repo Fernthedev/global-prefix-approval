@@ -38,11 +38,11 @@ public class MysqlStorageHandler implements StorageHandler {
 
 
     public void init() {
-        Universal.getMethods().getLogger().info("Initializing MySQL");
+        Universal.getMethods().getAbstractLogger().info("Initializing MySQL");
         setupTable();
         doSchedule();
         load();
-        Universal.getMethods().getLogger().info("Finished MySQL");
+        Universal.getMethods().getAbstractLogger().info("Finished MySQL");
     }
 
     private void setupTable() {

@@ -8,6 +8,8 @@ import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.gprefix.core.CommonConfigData;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.PrefixPlugin;
+import com.github.fernthedev.gprefix.proxy.ProxyPrefixCommand;
+import com.github.fernthedev.gprefix.proxy.ProxyConfigData;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 
@@ -25,7 +27,7 @@ public class BungeePlugin extends FernBungeeAPI implements PrefixPlugin {
     private BungeePrefixManager prefixManager;
 
     @Getter
-    private static GsonConfig<BungeeConfigData> dataConfig;
+    private static GsonConfig<ProxyConfigData> dataConfig;
 
     @Override
     public void onEnable() {
@@ -40,7 +42,8 @@ public class BungeePlugin extends FernBungeeAPI implements PrefixPlugin {
 //            FernCommands.getInstance().addMessageListener(new SpigotPrefixManager());
 
         try {
-            dataConfig = new GsonConfig<>(new BungeeConfigData(), new File(getDataFolder(), "config.json"));
+            dataConfig = new GsonConfig<>(new ProxyConfigData(), new File(getDataFolder(), "config.json"));
+            dataConfig.load();
             dataConfig.setGson(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create());
             dataConfig.save();
         } catch (ConfigLoadException e) {
@@ -52,7 +55,7 @@ public class BungeePlugin extends FernBungeeAPI implements PrefixPlugin {
         Core.init(this);
 
 
-        Universal.getCommandHandler().registerCommand(new FernPrefixCommand());
+        Universal.getCommandHandler().registerCommand(new ProxyPrefixCommand());
 
         BungeePrefixManager networkManager = new BungeePrefixManager();
         Universal.getMessageHandler().registerMessageHandler(networkManager);

@@ -53,6 +53,7 @@ public class SpigotPlugin extends FernSpigotAPI implements PrefixPlugin {
 
         try {
             configDataConfig = new GsonConfig<>(new SpigotConfigData(), new File(getDataFolder(), "config.json"));
+            configDataConfig.load();
             configDataConfig.setGson(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create());
             configDataConfig.save();
         } catch (ConfigLoadException e) {

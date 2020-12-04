@@ -1,4 +1,4 @@
-package com.github.fernthedev.gprefix.bungee;
+package com.github.fernthedev.gprefix.proxy;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
@@ -11,7 +11,7 @@ import com.github.fernthedev.gprefix.core.Core;
 import lombok.SneakyThrows;
 
 @CommandAlias("bungeerefix|bprefix")
-public class FernPrefixCommand extends BaseCommand {
+public class ProxyPrefixCommand extends BaseCommand {
 
     public enum ReloadType {
         CONFIG,
@@ -27,12 +27,12 @@ public class FernPrefixCommand extends BaseCommand {
         switch (reloadType) {
             case CONFIG:
                 fernCommandIssuer.sendMessage(TextMessage.fromColor("&aReloading config"));
-                BungeePlugin.getDataConfig().syncLoad();
+                Core.getPrefixPlugin().getCoreConfig().syncLoad();
                 break;
             case DATABASE:
                 fernCommandIssuer.sendMessage(TextMessage.fromColor("&aReloading database"));
                 Universal.getScheduler().runAsync(() -> {
-                    BungeePlugin.getInstance().getStorageHandler().load();
+                    Core.getPrefixPlugin().getStorageHandler().load();
                     fernCommandIssuer.sendMessage(TextMessage.fromColor("&aFinished database"));
                 });
                 break;

@@ -27,6 +27,7 @@ public class DBUtil {
 
         GsonConfig<ConfigStorageHandler.StorageData> storageDataGsonConfig = new GsonConfig<>(new ConfigStorageHandler.StorageData(Core.getPrefixPlugin().getPrefixManager().getPrefixes()), prefixFile(".json"));
         storageDataGsonConfig.setGson(new GsonBuilder().setLenient().setPrettyPrinting().disableHtmlEscaping().create());
+
         gsonConfig = new ConfigStorageHandler(storageDataGsonConfig);
         gsonConfig.init();
         return gsonConfig;

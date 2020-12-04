@@ -54,7 +54,7 @@ public class Core {
     }
 
     public static void disable() {
-        Universal.getMethods().getLogger().info("Saving prefixes");
+        Universal.getMethods().getAbstractLogger().info("Saving prefixes");
 
         TaskInfo<?> taskInfo = null;
 
@@ -68,7 +68,7 @@ public class Core {
 
         taskInfo1.awaitFinish(1);
 
-        Universal.getMethods().getLogger().info("Save complete");
+        Universal.getMethods().getAbstractLogger().info("Save complete");
     }
 
     public static PrefixPlugin getPrefixPlugin() {
