@@ -5,6 +5,7 @@ import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.github.fernthedev.config.gson.GsonConfig;
 import com.github.fernthedev.fernapi.server.velocity.FernVelocityAPI;
 import com.github.fernthedev.fernapi.universal.Universal;
+import com.github.fernthedev.gprefix.bungee.hooks.LuckPermsPrefixHandler;
 import com.github.fernthedev.gprefix.core.CommonConfigData;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.PrefixPlugin;
@@ -76,6 +77,9 @@ public class VelocityPlugin extends FernVelocityAPI implements PrefixPlugin {
         server.getEventManager().register(this, new VelocityPrefixManager());
 
         getLogger().info("Registered fern prefix bungee channels.");
+
+        if (getServer().getPluginManager().getPlugin("LuckPerms").isPresent())
+            getServer().getEventManager().register(this, new LuckPermsPrefixHandler());
     }
 
     @Override

@@ -29,6 +29,8 @@ public class CommonConfigData implements Serializable {
     @Getter
     private DBUtil.StorageTypes storageTypes = DBUtil.StorageTypes.JSON;
 
+    private String appendPrefixRequestSuffix = " &r";
+
 
     private boolean writeLogs = true;
 

@@ -20,6 +20,15 @@ public interface PrefixManager {
 
     Map<UUID, PrefixInfoData> prefixes = new HashMap<>();
 
+    /**
+     * Handles updating the prefix
+     * in the database
+     *
+     * @param staff
+     * @param player
+     * @param prefixInfoData
+     * @param silent
+     */
     default void updatePrefixStatus(@Nullable FernCommandIssuer staff, IFPlayer<?> player, PrefixInfoData prefixInfoData, boolean silent) {
         prefixes.put(player.getUniqueId(), prefixInfoData);
 
@@ -45,9 +54,7 @@ public interface PrefixManager {
         }
     }
 
-    default void updatePrefixStatus(@Nullable FernCommandIssuer staff, IFPlayer<?> player, String prefix, boolean silent) {
-        updatePrefixStatus(staff ,player, new PrefixInfoData(prefix, prefixes.get(player.getUniqueId()).getPrefixUpdateMode()), silent);
-    }
+
     default void updatePrefixStatus(@Nullable FernCommandIssuer staff, IFPlayer<?> player, CommonNetwork.PrefixUpdateMode prefixUpdateMode, boolean silent) {
         updatePrefixStatus(staff, player, new PrefixInfoData(prefixes.get(player.getUniqueId()).getPrefix(), prefixUpdateMode), silent);
     }

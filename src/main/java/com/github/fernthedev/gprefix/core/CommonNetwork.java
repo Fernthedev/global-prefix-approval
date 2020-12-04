@@ -14,7 +14,11 @@ public class CommonNetwork {
     public enum PrefixUpdateMode {
         AWAIT_APPROVAL,
         APPROVED,
-        DENIED
+        DENIED;
+
+        public boolean approved() {
+            return this == APPROVED;
+        }
     }
 
     @Deprecated

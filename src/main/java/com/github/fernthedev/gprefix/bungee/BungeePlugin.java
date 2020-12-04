@@ -5,6 +5,7 @@ import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.github.fernthedev.config.gson.GsonConfig;
 import com.github.fernthedev.fernapi.server.bungee.FernBungeeAPI;
 import com.github.fernthedev.fernapi.universal.Universal;
+import com.github.fernthedev.gprefix.bungee.hooks.LuckPermsPrefixHandler;
 import com.github.fernthedev.gprefix.core.CommonConfigData;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.PrefixPlugin;
@@ -62,6 +63,9 @@ public class BungeePlugin extends FernBungeeAPI implements PrefixPlugin {
         getProxy().getPluginManager().registerListener(this, networkManager);
 
         getLogger().info("Registered fern prefix bungee channels.");
+
+        if (getProxy().getPluginManager().getPlugin("LuckPerms") != null)
+            getProxy().getPluginManager().registerListener(this, new LuckPermsPrefixHandler());
     }
 
     @Override

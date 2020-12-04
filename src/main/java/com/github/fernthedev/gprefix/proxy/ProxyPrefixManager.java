@@ -31,6 +31,13 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
         runPrefixListUpdate("ALL");
     }
 
+    /**
+     * Handle updating prefix
+     * @param staff
+     * @param player
+     * @param prefixInfoData
+     * @param silent
+     */
     @Override
     public void updatePrefixStatus(FernCommandIssuer staff, IFPlayer<?> player, PrefixInfoData prefixInfoData, boolean silent) {
         PrefixManager.super.updatePrefixStatus(staff, player, prefixInfoData, silent);
@@ -94,55 +101,7 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
 
             updatePrefixStatus(fernCommandIssuer, Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getPlayerUUID()), prefixUpdateData.getPrefixInfoData(), prefixUpdateData.isSilent());
 
-//            prefixes.put(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
-//
-//            if (!prefixUpdateData.isSilent()) {
-//                @NonNull OfflineFPlayer<?> playerFromUUID = Universal.getMethods().getPlayerFromUUID(prefixUpdateData.getPlayerUUID());
-//
-//                if (playerFromUUID.isOnline()) {
-//                    sendMail(playerFromUUID, prefixUpdateData.getPrefixInfoData());
-//
-//                }
-//            }
-
-//            Core.getPrefixPlugin().getStorageHandler().save();
             runPrefixListUpdate();
-
-//            if (Universal.getMethods().getServerType() == ServerType.BUKKIT) {
-//                try {
-//                    String type = pluginMessageData.getProxyChannelType(); //TYPE
-//                    String server = pluginMessageData.getServer(); // Server
-//                    String subChannel = pluginMessageData.getSubChannel(); // Subchannel
-//
-//                    Queue<String> dataList = new LinkedList<>(pluginMessageData.getExtraData());
-//
-//                    if (subChannel.equalsIgnoreCase(Channels.PREFIX_RELOAD)) {
-//                        String playerName = dataList.remove();
-//                        String uuid = dataList.remove();
-//
-//
-//                        BungeePlugin.getStorageHandler().load();
-//
-//                        String nick = null;
-//
-//                        for (RowData rowData : databaseInfo.getRowDataList()) {
-//                            if (rowData.getColumn("PLAYERUUID").getValue() == null) continue;
-//
-//                            if (rowData.getColumn("PLAYERUUID").getValue().equals(uuid)) {
-//                                nick = rowData.getColumn("PREFIX").getValue();
-//                            }
-//                        }
-//
-//
-//                        SpigotPrefixManager.handleNick(uuid, playerName, nick);
-//
-//
-//                    }
-//
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
         }
     }
 

@@ -1,8 +1,6 @@
 name: FernGlobalPrefixes
 main: com.github.fernthedev.gprefix.spigot.SpigotPlugin
 author: Fernthedev
-depends:
-  - Vault
 version: 0.3.0-BETA
 website: https://github.com/Fernthedev/global-prefix-approval
 api-version: 1.14

@@ -23,9 +23,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CoreCommands extends BaseCommand {
 
-    public final static String COMMAND_ALIAS = "prefix";
-    public final static String APPROVE_SUBCOMAMND = "approve";
-    public final static String DENY_SUBCOMMAND = "deny";
+    public static final String COMMAND_ALIAS = "prefix";
+    public static final String APPROVE_SUBCOMAMND = "approve";
+    public static final String DENY_SUBCOMMAND = "deny";
 
     private static final int PAGE_SIZE = 10;
 
