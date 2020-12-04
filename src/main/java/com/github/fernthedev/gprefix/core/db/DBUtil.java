@@ -69,7 +69,7 @@ public class DBUtil {
         return null;
     }
 
-    private static File prefixFile(String extension) {return new File(Universal.getMethods().getDataFolder(), "prefixes." + extension); }
+    private static File prefixFile(String extension) {return new File(Universal.getMethods().getDataFolder(), "prefixes" + extension); }
 
 
 
