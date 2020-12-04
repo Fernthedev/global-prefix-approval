@@ -2,6 +2,7 @@ package com.github.fernthedev.gprefix.core.command;
 
 import co.aikar.commands.*;
 import co.aikar.commands.annotation.*;
+import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
 import com.github.fernthedev.fernapi.universal.api.IFPlayer;
 import com.github.fernthedev.fernapi.universal.data.chat.*;
@@ -40,7 +41,12 @@ public class CoreCommands extends BaseCommand {
 
 //        Connection connection = DatabaseHandler.getConnection();
 
-        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".allowSpaces") && newPrefix.length > 0) {
+        if (newPrefix.length == 0) {
+            Universal.getCommandHandler().generateCommandHelp(sender, CoreCommands.COMMAND_ALIAS).showHelp();
+            return;
+        }
+
+        if (!sender.hasPermission(Core.PREFIX_PERMISSION + ".allowSpaces") && newPrefix.length > 1) {
             sender.sendMessage(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getNoSpacingAllowed());
             return;
         }
@@ -137,6 +143,7 @@ public class CoreCommands extends BaseCommand {
             fernCommandIssuer.sendMessage(TextMessage.fromColor(prefixPlugin.getCoreConfig().getConfigData().getMessageLocale().getQueueDoesNotContain().replace("${player}", player.getName())));
     }
 
+    @CommandPermission(Core.COMMAND_PERMISSION + ".deny")
     @Subcommand("deny")
     @CommandCompletion("@players true|false")
     public void deny(FernCommandIssuer fernCommandIssuer, @Flags("other,offline") IFPlayer<?> player,  @Optional @Default("false") boolean silent) {
