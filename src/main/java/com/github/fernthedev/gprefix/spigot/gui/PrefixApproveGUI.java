@@ -74,7 +74,7 @@ public class PrefixApproveGUI implements InventoryProvider, Listener {
         prefixTag = prefixTag.replace("${prefix}", prefix).replace("${player}", name);
 
         String prefixLoreTag = SpigotPlugin.getConfigData().getGuiLocale().getPrefixItemLore();
-        prefixLoreTag = ChatColor.RESET + prefixLoreTag.replace("${prefix}", prefix).replace("${player}", name);
+        prefixLoreTag = ChatColor.WHITE + ChatColor.translateAlternateColorCodes('&', prefixLoreTag.replace("${prefix}", prefix).replace("${player}", name));
 
 
         List<String> loreList = new ArrayList<>();

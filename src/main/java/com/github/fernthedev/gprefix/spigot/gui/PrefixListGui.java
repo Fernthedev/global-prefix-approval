@@ -113,7 +113,7 @@ public class PrefixListGui implements InventoryProvider, Listener {
 
 
         List<String> loreList = new ArrayList<>();
-        loreList.add(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&',
+        loreList.add(ChatColor.WHITE + ChatColor.translateAlternateColorCodes('&',
                 SpigotPlugin.getConfigData().getGuiLocale().getPrefixItemLore()
                         .replace("${prefix}", prefix)
                         .replace("${player}", name)
