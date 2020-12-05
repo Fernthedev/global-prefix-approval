@@ -30,6 +30,7 @@ public class SpigotCommand extends BaseCommand {
                     case CONFIG:
                         commandIssuer.sendMessage(TextMessage.fromColor("&aReloading config"));
                         SpigotPlugin.getConfigDataConfig().syncLoad();
+                        Universal.setDebug(Core.getPrefixPlugin().getCoreConfig().getConfigData().isDebugMode());
                         break;
                     case DATABASE:
                         DBUtil.StorageTypes storageTypes = Core.getPrefixPlugin().getCoreConfig().getConfigData().getStorageTypes();

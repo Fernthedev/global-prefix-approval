@@ -28,6 +28,7 @@ public class ProxyPrefixCommand extends BaseCommand {
             case CONFIG:
                 fernCommandIssuer.sendMessage(TextMessage.fromColor("&aReloading config"));
                 Core.getPrefixPlugin().getCoreConfig().syncLoad();
+                Universal.setDebug(Core.getPrefixPlugin().getCoreConfig().getConfigData().isDebugMode());
                 break;
             case DATABASE:
                 fernCommandIssuer.sendMessage(TextMessage.fromColor("&aReloading database"));
