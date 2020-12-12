@@ -14,4 +14,6 @@ public class SpigotConfigData extends CommonConfigData implements Serializable {
 
     private GuiSize prefixQueueGuiSize = new GuiSize(5, 9);
 
+    private String nameTagEditPrefixCommand = "nte player {player} prefix {prefix}";
+
 }

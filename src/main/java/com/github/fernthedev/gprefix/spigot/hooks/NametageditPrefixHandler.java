@@ -1,11 +1,11 @@
 package com.github.fernthedev.gprefix.spigot.hooks;
 
-import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
+import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import com.github.fernthedev.gprefix.spigot.SpigotPlugin;
 import com.github.fernthedev.gprefix.spigot.event.PrefixUpdateEvent;
-import com.nametagedit.plugin.NametagEdit;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +16,11 @@ import java.util.UUID;
 
 public class NametageditPrefixHandler implements Listener {
 
-
+    private static String prefixCommand(String player, String prefix) {
+        return SpigotPlugin.getConfigData().getNameTagEditPrefixCommand()
+                .replace("{player}", player)
+                .replace("{prefix}", prefix);
+    }
 
     @EventHandler
     public void onPrefix(PrefixUpdateEvent e) {
@@ -26,10 +30,9 @@ public class NametageditPrefixHandler implements Listener {
         if (prefixInfoData.getPrefixUpdateMode().approved()) {
             Player player = Bukkit.getPlayer(uuid);
 
+            Universal.debug("Setting nametag prefix " + uuid + " " + (player != null));
             if (player != null)
-                NametagEdit.getApi().setPrefix(player,
-                        ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + SpigotPlugin.getConfigData().getAppendPrefixRequestSuffix())
-                );
+                setPrefix(player, prefixInfoData);
         }
     }
 
@@ -39,11 +42,30 @@ public class NametageditPrefixHandler implements Listener {
         PrefixInfoData prefixInfoData = Core.getPrefixPlugin().getPrefixManager().getPrefixes().get(uuid);
 
         if (prefixInfoData != null && prefixInfoData.getPrefixUpdateMode().approved()) {
-            String prefix = ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + SpigotPlugin.getConfigData().getAppendPrefixRequestSuffix());
 
-            if (!NametagEdit.getApi().getNametag(e.getPlayer()).getPrefix().equals(prefix))
-                NametagEdit.getApi().setPrefix(e.getPlayer(), prefix);
+            setPrefix(e.getPlayer(), prefixInfoData);
         }
+    }
+
+    private void setPrefix(@NonNull Player player, PrefixInfoData prefixInfoData) {
+        Universal.debug("Setting nametag prefix " + player.getUniqueId() + " ");
+
+        String unformattedPrefix = prefixInfoData.getPrefix() + SpigotPlugin.getConfigData().getAppendPrefixRequestSuffix();
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), prefixCommand(player.getName(), unformattedPrefix));
+
+        // TODO: Wait for NTE to add persistent API methods
+        // as they currently only save to memory.
+//
+//        String prefix = ChatColor.translateAlternateColorCodes('&', unformattedPrefix);
+//
+//        INametagApi api = NametagEdit.getApi();
+//
+//        Nametag nametag = api.getNametag(player);
+//        api.clearNametag(player);
+//        api.setNametag(player, prefix, nametag.getSuffix());
+//
+//        api.applyTagToPlayer(player, true);
     }
 
 }
