@@ -2,7 +2,7 @@ package com.github.fernthedev.gprefix.core.hooks;
 
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
-import com.github.fernthedev.gprefix.bungee.BungeePlugin;
+import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
@@ -49,7 +49,7 @@ public class LuckPermsPrefixCoreHandler {
                     }
 
                     user.data().add(PrefixNode.builder()
-                            .prefix(ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + BungeePlugin.getDataConfig().getConfigData().getAppendPrefixRequestSuffix()))
+                            .prefix(ChatColor.translateAlternateColorCodes('&', prefixInfoData.getPrefix() + Core.getPrefixPlugin().getCoreConfig().getConfigData().getAppendPrefixRequestSuffix()))
                             .priority(priority)
                             .build()
                     );
