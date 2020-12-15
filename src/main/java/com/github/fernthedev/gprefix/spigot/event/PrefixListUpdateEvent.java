@@ -7,6 +7,14 @@ import org.jetbrains.annotations.NotNull;
 public class PrefixListUpdateEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
+    /**
+     * The default constructor is defined for cleaner code. This constructor
+     * assumes the event is synchronous.
+     */
+    public PrefixListUpdateEvent() {
+        super(true);
+    }
+
     @NotNull
     @Override
     public HandlerList getHandlers() {

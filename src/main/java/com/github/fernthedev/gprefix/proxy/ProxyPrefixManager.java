@@ -101,7 +101,12 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
                     playersToUpdate.put(uuid, prefixInfoData);
             });
 
-            callUpdateEvents(playersToUpdate);
+            Runnable r = () -> callUpdateEvents(playersToUpdate);
+
+            if (Universal.getMethods().isMainThread())
+                Universal.getScheduler().runAsync(r);
+            else
+                r.run();
 
 
             runPrefixListUpdate();

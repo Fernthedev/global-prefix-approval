@@ -9,11 +9,15 @@ import com.github.fernthedev.fernapi.universal.util.ProxyAskPlaceHolder;
 import com.github.fernthedev.gprefix.core.Channels;
 import com.github.fernthedev.gprefix.core.CommonNetwork;
 import com.github.fernthedev.gprefix.core.Core;
+import com.github.fernthedev.gprefix.core.PrefixManager;
+import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import com.github.fernthedev.gprefix.core.db.impl.StorageHandler;
 import com.github.fernthedev.gprefix.core.message.PrefixListPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixRequestPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixUpdateData;
 import com.github.fernthedev.gprefix.spigot.SpigotPlugin;
+import com.github.fernthedev.gprefix.spigot.event.PrefixListUpdateEvent;
+import com.github.fernthedev.gprefix.spigot.event.PrefixUpdateEvent;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -21,9 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class PluginMessagingDB extends PluginMessageHandler implements StorageHandler, Listener {
 
@@ -57,11 +59,33 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
         Universal.debug("Plugin data: " + data);
         if (data instanceof PrefixListPluginData) {
             PrefixListPluginData prefixListPluginData = (PrefixListPluginData) data;
+            Map<UUID, PrefixInfoData> prefixes = Core.getPrefixPlugin().getPrefixManager().getPrefixes();
 
-            Core.getPrefixPlugin().getPrefixManager().getPrefixes().clear();
-            Core.getPrefixPlugin().getPrefixManager().getPrefixes().putAll(prefixListPluginData.getPlayerPrefixData());
+            Map<UUID, PrefixInfoData> prefixesCopy = new HashMap<>(prefixes);
+
+            prefixes.clear();
+            prefixes.putAll(prefixListPluginData.getPlayerPrefixData());
 
             Universal.debug("Prefix list " + prefixListPluginData.getPlayerPrefixData());
+
+
+            Map<UUID, PrefixInfoData> playersToUpdate = new HashMap<>();
+
+            PrefixManager.prefixes.forEach((uuid, prefixInfoData) -> {
+                if (prefixesCopy.containsKey(uuid) && prefixesCopy.get(uuid) != prefixInfoData)
+                    playersToUpdate.put(uuid, prefixInfoData);
+
+                if (!prefixesCopy.containsKey(uuid))
+                    playersToUpdate.put(uuid, prefixInfoData);
+            });
+
+            Runnable r = () -> callUpdateEvents(playersToUpdate);
+
+            if (Universal.getMethods().isMainThread())
+                Universal.getScheduler().runAsync(r);
+            else
+                r.run();
+
 
         }
 
@@ -78,6 +102,14 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
 
             SpigotPlugin.getInstance().getPrefixManager().updatePrefixStatus(prefixUpdateData.getPlayerUUID(), prefixUpdateData.getPrefixInfoData());
         }
+    }
+
+    private void callUpdateEvents(Map<UUID, PrefixInfoData> playersToUpdate) {
+
+        Bukkit.getPluginManager().callEvent(new PrefixListUpdateEvent());
+        playersToUpdate.forEach((uuid, prefixInfoData) -> Bukkit.getPluginManager().callEvent(new PrefixUpdateEvent(uuid, prefixInfoData)));
+
+
     }
 
     public static void runPrefixRequest() {
