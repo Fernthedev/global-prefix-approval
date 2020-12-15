@@ -53,6 +53,8 @@ public class LuckPermsPrefixCoreHandler {
                             .priority(priority)
                             .build()
                     );
+
+                    userManager.saveUser(user);
                 }
             };
 
