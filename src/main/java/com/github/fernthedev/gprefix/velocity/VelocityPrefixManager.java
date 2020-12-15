@@ -12,7 +12,9 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class VelocityPrefixManager extends ProxyPrefixManager {
 
@@ -23,6 +25,20 @@ public class VelocityPrefixManager extends ProxyPrefixManager {
         VelocityPlugin.getInstance().getServer().getEventManager().fireAndForget(new PrefixListUpdateEvent());
 
         VelocityPlugin.getInstance().getServer().getEventManager().fireAndForget(new PrefixUpdateEvent(player.getUuid(), prefixInfoData));
+    }
+
+    /**
+     * Calls the events for each player update on the proxy
+     *
+     * @param playersToUpdate
+     */
+    @Override
+    protected void callUpdateEvents(Map<UUID, PrefixInfoData> playersToUpdate) {
+        VelocityPlugin.getInstance().getServer().getEventManager().fireAndForget(new PrefixListUpdateEvent());
+
+        playersToUpdate.forEach((uuid, prefixInfoData) ->
+                VelocityPlugin.getInstance().getServer().getEventManager()
+                        .fireAndForget(new PrefixUpdateEvent(uuid, prefixInfoData)));
     }
 
     @Subscribe

@@ -84,9 +84,26 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
         }
 
         if (pluginMessageData instanceof PrefixListPluginData) {
+            Map<UUID, PrefixInfoData> prefixes = PrefixManager.prefixes;
+            Map<UUID, PrefixInfoData> prefixesCopy = new HashMap<>(prefixes);
+
             prefixes.clear();
             prefixes.putAll(((PrefixListPluginData) pluginMessageData).getPlayerPrefixData());
             Core.getPrefixPlugin().getStorageHandler().save();
+
+            Map<UUID, PrefixInfoData> playersToUpdate = new HashMap<>();
+
+            prefixes.forEach((uuid, prefixInfoData) -> {
+                if (prefixesCopy.containsKey(uuid) && prefixesCopy.get(uuid) != prefixInfoData)
+                    playersToUpdate.put(uuid, prefixInfoData);
+
+                if (!prefixesCopy.containsKey(uuid))
+                    playersToUpdate.put(uuid, prefixInfoData);
+            });
+
+            callUpdateEvents(playersToUpdate);
+
+
             runPrefixListUpdate();
         }
 
@@ -104,6 +121,12 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
             runPrefixListUpdate();
         }
     }
+
+    /**
+     * Calls the events for each player update on the proxy
+     * @param playersToUpdate
+     */
+    protected abstract void callUpdateEvents(Map<UUID, PrefixInfoData> playersToUpdate);
 
     protected void updateServer(IServerInfo serverInfo) {
         Universal.debug("Sending to queued server " + serverInfo.getName());

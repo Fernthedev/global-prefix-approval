@@ -14,6 +14,9 @@ import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class BungeePrefixManager extends ProxyPrefixManager implements Listener {
 
     @Override
@@ -22,6 +25,20 @@ public class BungeePrefixManager extends ProxyPrefixManager implements Listener 
 
         ProxyServer.getInstance().getPluginManager().callEvent(new PrefixListUpdateEvent());
         ProxyServer.getInstance().getPluginManager().callEvent(new PrefixUpdateEvent(player.getUuid(), prefixInfoData));
+    }
+
+    /**
+     * Calls the events for each player update on the proxy
+     *
+     * @param playersToUpdate
+     */
+    @Override
+    protected void callUpdateEvents(Map<UUID, PrefixInfoData> playersToUpdate) {
+        ProxyServer.getInstance().getPluginManager().callEvent(new PrefixListUpdateEvent());
+
+        playersToUpdate.forEach((uuid, prefixInfoData) ->
+                ProxyServer.getInstance().getPluginManager()
+                        .callEvent(new PrefixUpdateEvent(uuid, prefixInfoData)));
     }
 
     @EventHandler
