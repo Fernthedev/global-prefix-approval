@@ -79,12 +79,7 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
                     playersToUpdate.put(uuid, prefixInfoData);
             });
 
-            Runnable r = () -> callUpdateEvents(playersToUpdate);
-
-            if (Universal.getMethods().isMainThread())
-                Universal.getScheduler().runAsync(r);
-            else
-                r.run();
+            callUpdateEvents(playersToUpdate);
 
 
         }

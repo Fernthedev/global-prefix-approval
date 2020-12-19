@@ -32,6 +32,7 @@ public class SpigotPrefixManager implements PrefixManager {
 
         Bukkit.getPluginManager().callEvent(new PrefixListUpdateEvent());
 
+
         applyPrefix(player.getUniqueId(), prefixInfoData);
     }
 

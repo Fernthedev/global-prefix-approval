@@ -12,7 +12,7 @@ public class PrefixListUpdateEvent extends Event {
      * assumes the event is synchronous.
      */
     public PrefixListUpdateEvent() {
-        super(true);
+        super(false);
     }
 
     @NotNull
