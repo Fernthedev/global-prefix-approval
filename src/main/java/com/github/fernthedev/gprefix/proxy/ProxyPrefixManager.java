@@ -19,9 +19,6 @@ import lombok.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.github.fernthedev.gprefix.core.CommonNetwork.PrefixUpdateMode.AWAIT_APPROVAL;
 
 public abstract class ProxyPrefixManager extends PluginMessageHandler implements PrefixManager {
 
@@ -45,13 +42,7 @@ public abstract class ProxyPrefixManager extends PluginMessageHandler implements
     }
 
     public static void runPrefixListUpdate(String server) {
-        List<UUID> uuids = new ArrayList<>(prefixes.keySet()).parallelStream()
-                .filter(uuid -> prefixes.get(uuid).getPrefixUpdateMode() == AWAIT_APPROVAL)
-                .collect(Collectors.toList());
-
-        Map<UUID, PrefixInfoData> prefixMap = new HashMap<>();
-
-        uuids.forEach(uuid -> prefixMap.put(uuid, prefixes.get(uuid)));
+        Map<UUID, PrefixInfoData> prefixMap = new HashMap<>(prefixes);
 
         Universal.getNetworkHandler().getServers().forEach(((s, serverInfo) -> {
             if (serverInfo.getPlayers().isEmpty()) queuedServers.add(serverInfo.getName());

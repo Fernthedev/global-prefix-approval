@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.ByteArrayOutputStream;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class PluginMessagingDB extends PluginMessageHandler implements StorageHandler, Listener {
 
@@ -133,13 +134,17 @@ public class PluginMessagingDB extends PluginMessageHandler implements StorageHa
     }
 
     @Override
-    public void save() {
-        PrefixListPluginData prefixListPluginData = new PrefixListPluginData(Core.getPrefixPlugin().getPrefixManager().getPrefixes(), new ByteArrayOutputStream(), "BungeeCord", Channels.PREFIX_RELOAD, Channels.PREFIX_CHANNEL);
-        Universal.getMessageHandler().sendPluginData(prefixListPluginData);
+    public CompletableFuture<?> save() {
+        return Universal.getScheduler().runAsync(() -> {
+            PrefixListPluginData prefixListPluginData = new PrefixListPluginData(Core.getPrefixPlugin().getPrefixManager().getPrefixes(), new ByteArrayOutputStream(), "BungeeCord", Channels.PREFIX_RELOAD, Channels.PREFIX_CHANNEL);
+            Universal.getMessageHandler().sendPluginData(prefixListPluginData);
+        }).getTaskFuture();
     }
 
     @Override
-    public void load() {
-        runPrefixRequest();
+    public CompletableFuture<?> load() {
+        return Universal.getScheduler()
+                .runAsync(PluginMessagingDB::runPrefixRequest)
+                .getTaskFuture();
     }
 }

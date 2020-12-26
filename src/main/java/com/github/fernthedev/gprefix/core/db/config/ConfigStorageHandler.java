@@ -1,6 +1,7 @@
 package com.github.fernthedev.gprefix.core.db.config;
 
 import com.github.fernthedev.config.common.Config;
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.gprefix.core.Core;
 import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
@@ -10,6 +11,7 @@ import lombok.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 public class ConfigStorageHandler implements StorageHandler {
@@ -27,17 +29,30 @@ public class ConfigStorageHandler implements StorageHandler {
 
     @SneakyThrows
     @Override
-    public void save() {
-        storageDataConfig.getConfigData().prefixInfoDataMap = Core.getPrefixPlugin().getPrefixManager().getPrefixes();
-        storageDataConfig.syncSave();
+    public CompletableFuture<?> save() {
+        return Universal.getScheduler().runAsync(() -> {
+            storageDataConfig.getConfigData().prefixInfoDataMap = Core.getPrefixPlugin().getPrefixManager().getPrefixes();
+            try {
+                storageDataConfig.syncSave();
+            } catch (ConfigLoadException e) {
+                e.printStackTrace();
+            }
+        }).getTaskFuture();
     }
 
     @SneakyThrows
     @Override
-    public void load() {
-        storageDataConfig.syncLoad();
-        Core.getPrefixPlugin().getPrefixManager().getPrefixes().clear();
-        Core.getPrefixPlugin().getPrefixManager().getPrefixes().putAll(storageDataConfig.getConfigData().prefixInfoDataMap);
+    public CompletableFuture<?> load() {
+        return Universal.getScheduler().runAsync(() -> {
+            try {
+                storageDataConfig.syncLoad();
+            } catch (ConfigLoadException e) {
+                e.printStackTrace();
+                return;
+            }
+            Core.getPrefixPlugin().getPrefixManager().getPrefixes().clear();
+            Core.getPrefixPlugin().getPrefixManager().getPrefixes().putAll(storageDataConfig.getConfigData().prefixInfoDataMap);
+        }).getTaskFuture();
     }
 
     @Getter

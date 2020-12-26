@@ -1,10 +1,12 @@
 package com.github.fernthedev.gprefix.core.db.impl;
 
+import java.util.concurrent.CompletableFuture;
+
 public interface StorageHandler {
 
     void init();
 
-    void save();
+    CompletableFuture<?> save();
 
-    void load();
+    CompletableFuture<?> load();
 }

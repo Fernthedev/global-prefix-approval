@@ -2,9 +2,11 @@ package com.github.fernthedev.gprefix.core;
 
 import com.github.fernthedev.config.common.Config;
 import com.github.fernthedev.fernapi.universal.Universal;
+import com.github.fernthedev.fernapi.universal.data.database.MySQLData;
 import com.github.fernthedev.fernutils.thread.ThreadUtils;
 import com.github.fernthedev.fernutils.thread.single.TaskInfo;
 import com.github.fernthedev.gprefix.core.command.CoreCommands;
+import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
 import com.github.fernthedev.gprefix.core.message.PrefixListPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixRequestPluginData;
 import com.github.fernthedev.gprefix.core.message.PrefixUpdateData;
@@ -20,7 +22,7 @@ import java.io.File;
 public class Core {
 
 
-
+    private static final Gson gson = new Gson();
     private static PrefixPlugin prefixPlugin;
 
     @Getter
@@ -39,6 +41,9 @@ public class Core {
         if (!logFolder.exists()) logFolder.mkdir();
 
         dateLogger = new DateLogger(logFolder);
+
+        MySQLData.registerEncoder(PrefixInfoData.class, gson::toJson);
+        MySQLData.registerDecoder(PrefixInfoData.class, s -> gson.fromJson(s, PrefixInfoData.class));
 
         Config<? extends CommonConfigData> config = prefixPlugin.getCoreConfig();
         Universal.setDebug(config.getConfigData().isDebugMode());

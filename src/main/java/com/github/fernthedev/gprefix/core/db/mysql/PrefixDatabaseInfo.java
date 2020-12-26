@@ -1,16 +1,45 @@
 package com.github.fernthedev.gprefix.core.db.mysql;
 
-import com.github.fernthedev.fernapi.universal.data.database.ColumnData;
-import com.github.fernthedev.fernapi.universal.data.database.RowDataTemplate;
+import com.github.fernthedev.fernapi.universal.data.database.RowData;
 import com.github.fernthedev.fernapi.universal.data.database.TableInfo;
+import com.github.fernthedev.gprefix.core.db.PrefixInfoData;
+import lombok.Getter;
+import org.panteleyev.mysqlapi.annotations.Column;
+import org.panteleyev.mysqlapi.annotations.PrimaryKey;
 
-public class PrefixDatabaseInfo extends TableInfo {
+import java.util.UUID;
 
-    public static final RowDataTemplate ROW_DATA_TEMPLATE = new RowDataTemplate(
-            new ColumnData("PLAYERUUID", ""),
-            new ColumnData("PREFIX", ""));
+public class PrefixDatabaseInfo extends TableInfo<PrefixDatabaseInfo.PrefixRowDatabaseInfo> {
 
     public PrefixDatabaseInfo() {
-        super("fern_prefix", ROW_DATA_TEMPLATE);
+        super("fern_prefix", PrefixRowDatabaseInfo.class, PrefixRowDatabaseInfo::new);
+    }
+
+    @Getter
+    public static class PrefixRowDatabaseInfo extends RowData {
+
+        @Column("PLAYERUUID")
+        @PrimaryKey(isAutoIncrement = false)
+        private UUID uuid;
+
+        @Column("PREFIX")
+        private PrefixInfoData prefix;
+
+        /**
+         * Use to instantiate Row Data with empty data.
+         * <p>
+         * It is recommended to call {@link #initiateRowData()} after your values are instantiated.
+         */
+        public PrefixRowDatabaseInfo(UUID uuid, PrefixInfoData prefix) {
+            super();
+            this.uuid = uuid;
+            this.prefix = prefix;
+            initiateRowData();
+        }
+
+        @Deprecated
+        public PrefixRowDatabaseInfo() {
+            super();
+        }
     }
 }

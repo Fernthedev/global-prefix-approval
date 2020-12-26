@@ -28,8 +28,6 @@ public class SpigotPrefixManager implements PrefixManager {
             CommonNetwork.updatePlayerPrefixStatus(staff, player, prefixInfoData, silent);
         }
 
-        Core.getPrefixPlugin().getStorageHandler().save();
-
         Bukkit.getPluginManager().callEvent(new PrefixListUpdateEvent());
 
 
