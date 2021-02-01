@@ -86,7 +86,7 @@ dependencies {
     compileOnly 'net.luckperms:api:5.2'
     compile 'com.github.Fernthedev:fern-configmanager:1.4.0'
     compile 'com.github.Fernthedev:FernUtils:1.4.1'
-    compile 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
+    compile 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
     compile ("me.lucko:helper:5.6.5")
 
     compile 'com.velocitypowered:velocity-api:1.1.1'
