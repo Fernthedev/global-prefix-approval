@@ -16,6 +16,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -32,8 +33,8 @@ public class VelocityPlugin extends FernVelocityAPI implements PrefixPlugin {
     @Getter
     private final VelocityPrefixManager prefixManager;
 
-    public VelocityPlugin(ProxyServer server, Logger logger) {
-        super(server, logger);
+    public VelocityPlugin(ProxyServer server, Logger logger, PluginContainer pluginContainer) {
+        super(server, logger, pluginContainer);
         velocityPlugin = this;
 
         prefixManager = new VelocityPrefixManager();

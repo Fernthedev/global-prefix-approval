@@ -48,7 +48,7 @@ public class PrefixListGui implements InventoryProvider, Listener {
     private final int rows = SpigotPlugin.getConfigData().getPrefixQueueGuiSize().getRows();
     private final int columns = SpigotPlugin.getConfigData().getPrefixQueueGuiSize().getColumns();
     private final int itemsPerPage = ((rows - 3) * (columns - 2));
-    private List<ClickableItem> clickableItems = new ArrayList<>();
+    private final List<ClickableItem> clickableItems = new ArrayList<>();
 
     @Override
     public void init(Player player, InventoryContents contents) {
@@ -94,17 +94,20 @@ public class PrefixListGui implements InventoryProvider, Listener {
         playerMap.forEach((uuid, player) -> createNametagButtons(player));
     }
 
+
     private void createNametagButtons(Player player) {
         Map<UUID, PrefixInfoData> prefixes = Core.getPrefixPlugin().getPrefixManager().getPrefixes();
 
 //        Universal.debug("Prefixes list " + prefixes);
 
-        clickableItems.clear();
+        List<ClickableItem> clickableItemsCopy = new ArrayList<>(this.clickableItems);
+        this.clickableItems.clear();
         prefixes.forEach((uuid, prefixStatus) -> {
             if (prefixStatus.getPrefixUpdateMode() == CommonNetwork.PrefixUpdateMode.AWAIT_APPROVAL) {
-                clickableItems.add(getPrefixNametag(player, uuid, prefixStatus.getPrefix()));
+                this.clickableItems.add(getPrefixNametag(player, uuid, prefixStatus.getPrefix()));
             }
         });
+        Universal.debug("Old: " + clickableItemsCopy.toString() + "\nNew:" + this.clickableItems.toString());
     }
 
     private ClickableItem getPrefixNametag(Player player, UUID uuid, String prefix) {
@@ -189,8 +192,8 @@ public class PrefixListGui implements InventoryProvider, Listener {
     public void update(Player player, InventoryContents contents) {
         Pagination pagination = contents.pagination();
 
-        pagination.setItems(clickableItems.toArray(new ClickableItem[0]));
 
+        pagination.setItems(clickableItems.toArray(new ClickableItem[0]));
 //        setAllButtons(player, contents);
 
         bottomAndBorderButtons(player, contents);

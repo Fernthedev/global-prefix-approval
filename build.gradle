@@ -1,11 +1,11 @@
 plugins {
     id 'java' apply true
-    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
     id 'net.nemerosa.versioning' version '2.14.0'
-    id "io.freefair.lombok" version "5.3.0"
+    id "io.freefair.lombok" version "6.4.3"
     id 'signing'
     id 'maven-publish'
-    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group 'com.github.Fernthedev'
@@ -48,15 +48,11 @@ repositories {
         url = 'https://repo.md-5.net/content/repositories/snapshots/'
     }
     maven {
-        url = 'http://nexus.hc.to/content/repositories/pub_releases'
+        url = 'https://nexus.hc.to/content/repositories/pub_releases'
     }
 
     maven {
-        url = 'https://jitpack.io'
-    }
-
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
+        url = 'https://repo.maven.apache.org/maven2'
     }
 
     flatDir {
@@ -71,10 +67,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Fernthedev.FernAPI:all:56f73dc' //1.9.0-rc4'
+    implementation ('com.github.Fernthedev.FernAPI:all:e8ea75f9b3') //1.9.0-rc4'
 //    compileOnly 'com.google.apis:google-api-services-youtube:v3-rev193-1.23.0'
-//    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-//    compile 'com.google.api-client:google-api-client:1.23.0'
+//    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+//    implementation 'com.google.api-client:google-api-client:1.23.0'
 
 //    compileOnly 'org.spigotmc:plugin-annotations:1.2.2-SNAPSHOT'
 //    annotationProcessor 'org.spigotmc:plugin-annotations:1.2.2-SNAPSHOT'
@@ -84,20 +80,19 @@ dependencies {
 //    TODO: Find replacement
 //     compileOnly 'com.nametagedit:nametagedit:4.1.0'
     compileOnly 'net.luckperms:api:5.2'
-    compile 'com.github.Fernthedev:fern-configmanager:1.4.0'
-    compile 'com.github.Fernthedev:FernUtils:1.4.1'
-    compile 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
-    compile ("me.lucko:helper:5.6.5")
+    implementation 'com.github.Fernthedev:fern-configmanager:1.4.0'
+    implementation 'com.github.Fernthedev:FernUtils:1.4.1'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.1'
+    implementation ("me.lucko:helper:5.6.5")
 
-    compile 'com.velocitypowered:velocity-api:1.1.1'
+    implementation 'com.velocitypowered:velocity-api:1.1.1'
     annotationProcessor 'com.velocitypowered:velocity-api:1.1.1'
 
-    compileOnly 'net.md-5:bungeecord-api:1.14-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
-    compileOnly 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'net.md-5:bungeecord-api:1.18-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 
@@ -127,7 +122,7 @@ shadowJar {
 jar.dependsOn shadowJar
 
 compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
     options.compilerArgs += ["-parameters"]
     options.fork = true
     options.forkOptions.executable = 'javac'
@@ -136,4 +131,7 @@ compileJava {
 // Include if using kotlin
 compileKotlin {
     kotlinOptions.javaParameters = true
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17
+    }
 }
