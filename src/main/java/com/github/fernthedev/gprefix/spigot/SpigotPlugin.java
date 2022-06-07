@@ -11,6 +11,7 @@ import com.github.fernthedev.gprefix.core.PrefixPlugin;
 import com.github.fernthedev.gprefix.spigot.db.PluginMessagingDB;
 import com.github.fernthedev.gprefix.spigot.hooks.LuckPermsPrefixHandler;
 import com.github.fernthedev.gprefix.spigot.hooks.NametageditPrefixHandler;
+import com.github.fernthedev.gprefix.spigot.hooks.TABPrefixHandler;
 import com.github.fernthedev.gprefix.spigot.hooks.VaultPrefixHandler;
 import com.github.fernthedev.gprefix.spigot.locale.GuiLocale;
 import com.google.gson.GsonBuilder;
@@ -82,6 +83,9 @@ public class SpigotPlugin extends FernSpigotAPI implements PrefixPlugin {
 
         if (getServer().getPluginManager().isPluginEnabled("VaultAPI"))
             getServer().getPluginManager().registerEvents(new VaultPrefixHandler(), this);
+
+        if (getServer().getPluginManager().isPluginEnabled("TAB"))
+            getServer().getPluginManager().registerEvents(new TABPrefixHandler(), this);
 
         else if (getServer().getPluginManager().isPluginEnabled("LuckPerms"))
             getServer().getPluginManager().registerEvents(new LuckPermsPrefixHandler(), this);
